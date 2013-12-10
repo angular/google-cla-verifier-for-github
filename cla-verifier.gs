@@ -1,7 +1,9 @@
 /**
+ * @fileoverview Google CLA Verifier for GitHub
  * @author Igor Minar (igor@angularjs.org)
+ * @copyright (c) 2013 Google, Inc
  * @license MIT
- * @version 1.1.0
+ * @version 1.1.1
  * @description
  *
  * This Google App Script app that automatically verifies whether PRs in a given project where authored by developers who signed
