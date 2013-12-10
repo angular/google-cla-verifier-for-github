@@ -1,13 +1,20 @@
 /**
  * @author Igor Minar (igor@angularjs.org)
  * @license MIT
- * @version 1.0.0
+ * @version 1.0.1
  * @description
  *
  * This Google App Script app that automatically verifies whether PRs in a given project where authored by developers who signed
  * Google's CLA via the online form (http://code.google.com/legal/individual-cla-v1.0.html).
  *
  * The association between the developer and CLA signer is done by matching email in the PR commit against email in the CLA spreadsheet.
+ *
+ * Features
+ * --------
+ * - retrieves all open PRs from a github repo and checks their CLA status
+ * - adds "cla: yes" or "cla: no" label to all open PRs
+ * - supports cron-like scheduling via App Script triggers
+ * - emails log output to the person who installs this script after each run
  *
  *
  * Instalation
@@ -43,6 +50,12 @@
  * Set up a project trigger that will run the "checkCla" function once an hour (or once a day).
  *
  *
+ * 5/ GitHub PR Helper Chrome Extension
+ *
+ * Since GitHub's UI doesn't show labels for PRs, install [GitHub PR Helper](https://github.com/petebacondarwin/github-pr-helper)
+ * Chrome Extension to make the labels visible in the PR/Issues list and detail views.
+ *
+ *
  * Limitations
  * -----------
  * - doesn't check corporate signers
@@ -54,6 +67,8 @@
  * --------------------------
  *
  * The code is hosted at https://github.com/angular/google-cla-verifier-for-github
+ *
+ * Changelog: https://github.com/angular/google-cla-verifier-for-github/commits/master
  */
 
 function checkCla() {
