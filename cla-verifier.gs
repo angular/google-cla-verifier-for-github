@@ -12,7 +12,14 @@
  * Instalation
  * ------------
  *
- * 1/ ENV Variables
+ * 1/ App Script Project
+ *
+ * Start a new "blank project" at http://script.google.com under your @google.com account.
+ *
+ * Create a new file "cla-verifier.gs" in there and copy the conents of this file there.
+ *
+ *
+ * 2/ ENV Variables
  *
  * This script assumes that there is another .gs file in the same project which defines GITHUB_REPO and GITHUB_ACCESS_TOKEN variables.
  * The filename is not significant. Example:
@@ -22,13 +29,15 @@
    var CLA_NOT_FOUND_COMMENT = 'Please sign CLA at http://code.google.com/legal/individual-cla-v1.0.html';
    var THANKS_FOR_SIGNING_CLA_COMMENT = 'Achievement unlocked: CLA signature found!';
 
- * 2/ GitHub Labels
+ *
+ * 3/ GitHub Labels
  *
  * In the project to be monitored create two labels:
  * - "cla: yes"
  * - "cla: no"
  *
- * 3/ App Script Project Trigger
+ *
+ * 4/ App Script Project Trigger
  *
  * Set up a project trigger that will run the "checkCla" function once an hour (or once a day).
  *
