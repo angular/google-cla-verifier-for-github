@@ -3,7 +3,7 @@
  * @author Igor Minar (igor@angularjs.org)
  * @copyright (c) 2013 Google, Inc
  * @license MIT
- * @version 1.1.3
+ * @version 1.1.4
  * @description
  *
  * This Google App Script app that automatically verifies whether PRs in a given project where authored by developers who signed
@@ -268,10 +268,11 @@ function ClaRepo() {
 
   for (var i = 0; i < valuesWithEmails.length; i++) {
     var email = valuesWithEmails[i][0];
-    emails.push(email);
+    emails.push(normalizeEmail(email));
   }
 
   this.containsEmail = function(email) {
+    email = normalizeEmail(email);
     var spreadsheetRowIndex = emails.indexOf(email) + 2; // +1 because first row is header and +1 because the rows are 1-based
 
     if (spreadsheetRowIndex >= 2) {
@@ -314,4 +315,11 @@ function emailLog(newClaCount, claMissingCount) {
  var subject = 'Google CLA Verifier Log (newly signed: ' + newClaCount + ', still missing: ' + claMissingCount + ')';
  var body = Logger.getLog();
  MailApp.sendEmail(recipient, subject, body);
+}
+
+
+function normalizeEmail(email) {
+  email = email.toLowerCase();
+  email = email.replace(/(^\s+|\s+$)/g, '');
+  return email;
 }
