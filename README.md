@@ -1,5 +1,5 @@
-Google Github CLA Verifier
-==========================
+Google CLA Verifier for GitHub
+==============================
 
 Google App Script for automatically verifying Google CLA status for contributions sent to GitHub projects
 
