@@ -1,6 +1,7 @@
 /**
  * @author Igor Minar (igor@angularjs.org)
  * @license MIT
+ * @version 1.0.0
  * @description
  *
  * This Google App Script app that automatically verifies whether PRs in a given project where authored by developers who signed
