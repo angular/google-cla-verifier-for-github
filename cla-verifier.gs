@@ -3,7 +3,7 @@
  * @author Igor Minar (igor@angularjs.org)
  * @copyright (c) 2013 Google, Inc
  * @license MIT
- * @version 1.1.4
+ * @version 1.1.5
  * @description
  *
  * This Google App Script app that automatically verifies whether PRs in a given project where authored by developers who signed
@@ -268,7 +268,11 @@ function ClaRepo() {
 
   for (var i = 0; i < valuesWithEmails.length; i++) {
     var email = valuesWithEmails[i][0];
-    emails.push(normalizeEmail(email));
+    email = normalizeEmail(email);
+
+    if (email) {
+      emails.push(normalizeEmail(email));
+    }
   }
 
   this.containsEmail = function(email) {
@@ -319,6 +323,8 @@ function emailLog(newClaCount, claMissingCount) {
 
 
 function normalizeEmail(email) {
+  if (!email || (typeof email !== 'string')) return null;
+
   email = email.toLowerCase();
   email = email.replace(/(^\s+|\s+$)/g, '');
   return email;
