@@ -152,9 +152,9 @@ function GitHub() {
     var linkHeader = response.getHeaders()['Link'];
     var hasMultiplePages = !!linkHeader;
 
-    var numberOfPages = hasMultiplePages ?
-        parseInt(linkHeader.match(/page=(\d+)>; rel="last"/)[1], 10) :
-        0;
+    var numberOfPages = hasMultiplePages
+        ? parseInt(linkHeader.match(/page=(\d+)>; rel="last"/)[1], 10)
+        : 1;
     log('  -> Determined that there are %s pages of open PRs', numberOfPages);
 
     var allPrs  = [];
