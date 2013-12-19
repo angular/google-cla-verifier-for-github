@@ -150,7 +150,11 @@ function GitHub() {
     var response = UrlFetchApp.fetch(prPageUrl(1));
 
     var linkHeader = response.getHeaders()['Link'];
-    var numberOfPages = parseInt(linkHeader.match(/page=(\d+)>; rel="last"/)[1], 10);
+    var hasMultiplePages = !!linkHeader;
+
+    var numberOfPages = hasMultiplePages
+        ? parseInt(linkHeader.match(/page=(\d+)>; rel="last"/)[1], 10)
+        : 1;
     log('  -> Determined that there are %s pages of open PRs', numberOfPages);
 
     var allPrs  = [];
