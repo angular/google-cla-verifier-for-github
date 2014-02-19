@@ -3,7 +3,7 @@
  * @author Igor Minar (igor@angularjs.org)
  * @copyright (c) 2013 Google, Inc
  * @license MIT
- * @version 1.1.5
+ * @version 1.1.6
  * @description
  *
  * This Google App Script app that automatically verifies whether PRs in a given project where authored by developers who signed
@@ -181,7 +181,7 @@ function GitHub() {
 
 
   function getPrsWithNoCla() {
-    return openPrs.reduce(function(noClaPrs, pr) {
+    var noClaPrs = openPrs.reduce(function(noClaPrs, pr) {
       var prNumber = pr['number'];
       var labels = getLabelsForPr(prNumber);
 
@@ -193,6 +193,12 @@ function GitHub() {
 
       return noClaPrs;
     }, []);
+
+    noClaPrs.sort(function(pr1, pr2) {
+      return pr1['number'] > pr2['number'];
+    });
+
+    return noClaPrs;
   }
 
 
