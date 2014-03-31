@@ -3,7 +3,7 @@
  * @author Igor Minar (igor@angularjs.org)
  * @copyright (c) 2013 Google, Inc
  * @license MIT
- * @version 1.1.6
+ * @version 1.1.7
  * @description
  *
  * This Google App Script app that automatically verifies whether PRs in a given project where authored by developers who signed
@@ -109,8 +109,8 @@ function checkCla() {
         if (!github.isLabeledAsClaNo(prNumber)) {
           log("   ->> CLA not found, posting CLA request comment", prNumber);
           github.postComment(prNumber, CLA_NOT_FOUND_COMMENT);
+          github.labelPrAsClaNo(prNumber);
         }
-        github.labelPrAsClaNo(prNumber);
       }
     });
   }
