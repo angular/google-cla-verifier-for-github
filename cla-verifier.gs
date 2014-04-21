@@ -3,7 +3,7 @@
  * @author Igor Minar (igor@angularjs.org)
  * @copyright (c) 2013 Google, Inc
  * @license MIT
- * @version 1.1.7
+ * @version 1.2.0
  * @description
  *
  * This Google App Script app that automatically verifies whether PRs in a given project where authored by developers who signed
@@ -326,7 +326,7 @@ function log(message) {
 
 function emailLog(newClaCount, claMissingCount) {
  var recipient = Session.getActiveUser().getEmail();
- var subject = 'Google CLA Verifier Log (newly signed: ' + newClaCount + ', still missing: ' + claMissingCount + ')';
+ var subject = 'Google CLA Verifier Log for ' + GITHUB_REPO + '(newly signed: ' + newClaCount + ', still missing: ' + claMissingCount + ')';
  var body = Logger.getLog();
  MailApp.sendEmail(recipient, subject, body);
 }
