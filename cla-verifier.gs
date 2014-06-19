@@ -3,11 +3,11 @@
  * @author Igor Minar (igor@angularjs.org)
  * @copyright (c) 2013 Google, Inc
  * @license MIT
- * @version 1.2.0
+ * @version 1.3.0
  * @description
  *
  * This Google App Script app that automatically verifies whether PRs in a given project where authored by developers who signed
- * Google's CLA via the online form (http://code.google.com/legal/individual-cla-v1.0.html).
+ * Google's CLA via the online form (https://developers.google.com/open-source/cla/individual).
  *
  * The association between the developer and CLA signer is done by matching email in the PR commit against email in the CLA spreadsheet.
  *
@@ -36,7 +36,7 @@
 
    var GITHUB_ACCESS_TOKEN = '12345'; //"Personal Token" string generated via https://github.com/settings/applications
    var GITHUB_REPO = 'angular/angular.js';
-   var CLA_NOT_FOUND_COMMENT = 'Please sign CLA at http://code.google.com/legal/individual-cla-v1.0.html';
+   var CLA_NOT_FOUND_COMMENT = 'Please sign CLA at https://developers.google.com/open-source/cla/individual';
    var THANKS_FOR_SIGNING_CLA_COMMENT = 'Achievement unlocked: CLA signature found!';
 
  *
@@ -269,10 +269,10 @@ function GitHub() {
 
 
 function ClaRepo() {
-  var claSpreadSheet = SpreadsheetApp.openByUrl('https://docs.google.com/a/google.com/spreadsheet/ccc?key=0AjutNIkpUHk2cDlpTnlzRmo0M3VEdFVQZVJyS3ZHTlE');
+  var claSpreadSheet = SpreadsheetApp.openByUrl('https://docs.google.com/a/google.com/spreadsheet/ccc?key=1N4NW6EMv-j_VEZaX_clH4Hjj8fpnY3fNHeKYK1GIGvM');
   var sheet = claSpreadSheet.getSheetByName("Individual Signers");
 
-  var rangeWithEmails = sheet.getRange(2, 4, sheet.getLastRow());
+  var rangeWithEmails = sheet.getRange(2, 3, sheet.getLastRow());
   var valuesWithEmails = rangeWithEmails.getValues();
   var emails = [];
 
