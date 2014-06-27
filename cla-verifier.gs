@@ -3,7 +3,7 @@
  * @author Igor Minar (igor@angularjs.org)
  * @copyright (c) 2013 Google, Inc
  * @license MIT
- * @version 1.3.0
+ * @version 1.3.1
  * @description
  *
  * This Google App Script app that automatically verifies whether PRs in a given project where authored by developers who signed
@@ -205,7 +205,7 @@ function GitHub() {
   function getEmailForPr(prNumber) {
     var patchUrl = openPrsMap[prNumber]['patch_url'];
     var response = UrlFetchApp.fetch(patchUrl).getContentText();
-    var email = response.match(/^From: .* <(\S+@\S+)>$/m)[1];
+    var email = response.match(/^From: [^<]* <(\S+@\S+)>$/m)[1];
     return email;
   }
 
