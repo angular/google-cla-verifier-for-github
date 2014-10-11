@@ -3,7 +3,7 @@
  * @author Igor Minar (igor@angularjs.org)
  * @copyright (c) 2013 Google, Inc
  * @license MIT
- * @version 1.3.1
+ * @version 1.4.0
  * @description
  *
  * This Google App Script app that automatically verifies whether PRs in a given project where authored by developers who signed
@@ -89,6 +89,7 @@ function checkCla() {
   if (prsToVerify.length) {
     log('Initiating ClaRepo');
     var claRepo = new ClaRepo();
+    var emailsWithoutCla = [];
 
     log('Verifying CLA for PRs');
     prsToVerify.forEach(function (prNumber) {
@@ -106,6 +107,7 @@ function checkCla() {
         github.labelPrAsClaYes(prNumber);
         newClaPrs.push(prNumber);
       } else {
+        emailsWithoutCla.push(email);
         if (!github.isLabeledAsClaNo(prNumber)) {
           log("   ->> CLA not found, posting CLA request comment", prNumber);
           github.postComment(prNumber, CLA_NOT_FOUND_COMMENT);
@@ -119,6 +121,7 @@ function checkCla() {
   log("Finished CLA Check (took: %sms | verified %s PRs | found %s new CLAs)", (end - start), prsToVerify.length, newClaPrs.length);
 
   emailLog(newClaPrs.length, (prsToVerify.length - newClaPrs.length));
+  emailSignClaRequest(emailsWithoutCla);
 }
 
 
@@ -329,6 +332,22 @@ function emailLog(newClaCount, claMissingCount) {
  var subject = 'Google CLA Verifier Log for ' + GITHUB_REPO + '(newly signed: ' + newClaCount + ', still missing: ' + claMissingCount + ')';
  var body = Logger.getLog();
  MailApp.sendEmail(recipient, subject, body);
+}
+
+
+function emailSignClaRequest(emailsWithoutCla) {
+  if (!emailsWithoutCla.length) return;
+
+  var recipient = 'angular-clas@google.com';
+  var subject = 'Request to verify CLAs in SignCLA';
+  var body = '';
+
+  emailsWithoutCla.forEach(function(email) {
+    body += email;
+    body += '\n';
+  });
+
+  MailApp.sendEmail(recipient, subject, body);
 }
 
 
