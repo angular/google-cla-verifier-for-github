@@ -3,7 +3,7 @@
  * @author Igor Minar (igor@angularjs.org)
  * @copyright (c) 2013 Google, Inc
  * @license MIT
- * @version 1.4.0
+ * @version 1.5.0
  * @description
  *
  * This Google App Script app that automatically verifies whether PRs in a given project where authored by developers who signed
@@ -272,7 +272,31 @@ function GitHub() {
 
 
 function ClaRepo() {
-  var claSpreadSheet = SpreadsheetApp.openByUrl('https://docs.google.com/a/google.com/spreadsheet/ccc?key=1N4NW6EMv-j_VEZaX_clH4Hjj8fpnY3fNHeKYK1GIGvM');
+  var emails = getEmailsFromSpreadsheet('https://docs.google.com/a/google.com/spreadsheet/ccc?key=1N4NW6EMv-j_VEZaX_clH4Hjj8fpnY3fNHeKYK1GIGvM');
+  var signClaEmails = getEmailsFromSpreadsheet('https://docs.google.com/a/google.com/spreadsheets/d/1yBqaKEk9BEjLeJ_aQMGSt3RnTd6f7PYRioyMSzaZAfo/edit');
+
+  this.containsEmail = function(email) {
+    email = normalizeEmail(email);
+
+    var spreadsheetRowIndex = emails.indexOf(email) + 2; // +1 because first row is header and +1 because the rows are 1-based
+
+    if (spreadsheetRowIndex >= 2) {
+      log('   ->> Found signature: %s (legacy spreadsheet index: %s)', email, spreadsheetRowIndex);
+      return true;
+    }
+
+    var spreadsheetRowIndex = signClaEmails.indexOf(email) + 2; // +1 because first row is header and +1 because the rows are 1-based
+
+    if (spreadsheetRowIndex >= 2) {
+      log('   ->> Found signature: %s (signCla spreadsheet index: %s)', email, spreadsheetRowIndex);
+      return true;
+    }
+  }
+}
+
+
+function getEmailsFromSpreadsheet(spreadsheetUrl) {
+  var claSpreadSheet = SpreadsheetApp.openByUrl(spreadsheetUrl);
   var sheet = claSpreadSheet.getSheetByName("Individual Signers");
 
   var rangeWithEmails = sheet.getRange(2, 3, sheet.getLastRow());
@@ -288,16 +312,9 @@ function ClaRepo() {
     }
   }
 
-  this.containsEmail = function(email) {
-    email = normalizeEmail(email);
-    var spreadsheetRowIndex = emails.indexOf(email) + 2; // +1 because first row is header and +1 because the rows are 1-based
-
-    if (spreadsheetRowIndex >= 2) {
-      log('   ->> Found signature: %s (spreadsheet index: %s)', email, spreadsheetRowIndex);
-      return true;
-    }
-  }
+  return emails;
 }
+
 
 
 /**
