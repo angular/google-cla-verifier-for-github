@@ -121,7 +121,6 @@ function checkCla() {
   log("Finished CLA Check (took: %sms | verified %s PRs | found %s new CLAs)", (end - start), prsToVerify.length, newClaPrs.length);
 
   emailLog(newClaPrs.length, (prsToVerify.length - newClaPrs.length));
-  emailSignClaRequest(emailsWithoutCla);
 }
 
 
@@ -349,22 +348,6 @@ function emailLog(newClaCount, claMissingCount) {
  var subject = 'Google CLA Verifier Log for ' + GITHUB_REPO + '(newly signed: ' + newClaCount + ', still missing: ' + claMissingCount + ')';
  var body = Logger.getLog();
  MailApp.sendEmail(recipient, subject, body);
-}
-
-
-function emailSignClaRequest(emailsWithoutCla) {
-  if (!emailsWithoutCla.length) return;
-
-  var recipient = 'angular-clas@google.com';
-  var subject = 'Request to verify CLAs in SignCLA';
-  var body = '';
-
-  emailsWithoutCla.forEach(function(email) {
-    body += email;
-    body += '\n';
-  });
-
-  MailApp.sendEmail(recipient, subject, body);
 }
 
 
