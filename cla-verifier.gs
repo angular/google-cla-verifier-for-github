@@ -19,7 +19,7 @@
  * - emails log output to the person who installs this script after each run
  *
  *
- * Instalation
+ * Installation
  * ------------
  *
  * 1/ App Script Project
